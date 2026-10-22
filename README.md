@@ -13,6 +13,11 @@ See `TDDs/` for what each version should do.
     - the rabbit: 🐇
 - **1** / **2** selects the ant / rabbit; the **arrow keys** move it one step
 - a creature can't move off the grid or into another creature; moving onto food eats it
+- a simple **game loop**: `main.ts` redraws the grid on every animation frame (about 60 a second), using
+  `requestAnimationFrame`
+- two **counters** above the grid: how many frames have been drawn, and how many times `render()` has been
+  called. Right now they climb together, because the grid is redrawn every frame whether or not anything
+  changed - see `TDDs/version02.md` for the fix
 
 The code is deliberately simple - there is plenty of room to improve it with design patterns.
 
@@ -23,7 +28,8 @@ Open the project in Celbridge. The console at the bottom starts by itself, and r
 1. **builds** `src/` (TypeScript) and `public/` (HTML, CSS, images) into `dist/`
 2. **tests** everything in `tests/`, printing the results in the console (in TAP format) and writing a
    readable report to `test_output/index.html` (and `test_output/summary.md`)
-3. **watches** - every time you save a file in `src/`, `public/` or `tests/`, it does it all again
+3. **watches** - every time you save a file in `src/`, `public/` or `tests/`, it does it all again. Only
+   one build runs at a time: saving during a build just means one more build once it has finished
 
 `dist/index.html` opens beside the console. After a rebuild, its preview's **refresh** button lights
 up - press it to see your changes. The clipboard icon opens the test report.
@@ -37,7 +43,9 @@ No server is needed: `dist/` is a plain web page, so you can also open `dist/ind
 
 ![Class diagram for version 1](README_images/class_diagram_v1.svg)
 
-The code follows **MVC**: `World` is the model, `main.ts` is the view, and `Game` is the controller.
+The code follows **MVC**: `World` is the model, `Display` is the view, and `Game` is the controller.
+`main.ts` is not a class: it creates the game and its display, passes key presses to the game, and runs the
+game loop.
 
 ## The files
 
@@ -51,8 +59,12 @@ The code follows **MVC**: `World` is the model, `main.ts` is the view, and `Game
   creature, and it eats any food it moves onto. Also exports the `WIDTH` and `HEIGHT` constants.
 - `src/Game.ts` - **Game** (the **controller**): creates the world, the ant, the rabbit and the food, and
   remembers which creature is selected. `handleKey()` turns a key press into a change to the world.
-- `src/main.ts` - the **view**, and the entry point (not a class). The only file that touches the web
-  page: it rebuilds the HTML table from the grid after every key press.
+- `src/Display.ts` - **Display** (the **view**): the only class that touches the web page. `render()`
+  rebuilds the HTML table from the grid (and counts how often it is called); `showCounters()` shows the
+  frame and `render()` counts.
+- `src/main.ts` - the entry point (not a class). Creates the `Game` and the `Display`, passes each key
+  press to `game.handleKey()`, and runs the game loop: every frame, `frame()` calls `display.render()`
+  and `display.showCounters()`.
 
 ### Tests (`tests/`)
 
@@ -61,7 +73,8 @@ The code follows **MVC**: `World` is the model, `main.ts` is the view, and `Game
 
 ### The web page (`public/`, copied into `dist/` by the build)
 
-- `public/index.html` - the page: a heading, the instructions, and the empty `<table>` that `main.ts` fills
+- `public/index.html` - the page: a heading, the instructions, the status and counters lines, and the
+  empty `<table>` that `Display` fills
 - `public/css/styles.css` - the look; the grid's styles are at the bottom, under "this project"
 - `public/images/sprites/` - the PNG pictures for the creatures and food
 
@@ -69,7 +82,8 @@ The code follows **MVC**: `World` is the model, `main.ts` is the view, and `Game
 
 - `TDDs/` - the technical design docs: what each version should do
 - `README_images/` - pictures used in this README
-- `build.ts` - builds `src/` and `public/` into `dist/`, then runs the tests (you never need to edit it)
+- `build.ts` - builds `src/` and `public/` into `dist/`, then runs the tests; with `--watch` it rebuilds on
+  every save (you never need to edit it)
 - `deno.json` - the `deno task` commands (`dev`, `build`, `test`, `check`, `lint`) and settings
 - `terminal.console` - the Celbridge console, and its buttons
 - `artificial_life.celbridge` - the Celbridge project file (which files open when the project loads)
