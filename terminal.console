@@ -1,5 +1,5 @@
 [session]
-type = "python"
+type = "shell"
 
 [session.shell]
 script = "deno task dev"
