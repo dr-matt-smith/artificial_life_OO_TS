@@ -1,4 +1,5 @@
-// The CONTROLLER: sets up the world, and turns key presses into changes to it.
+// The CONTROLLER: sets up the world, turns key presses into changes to it, and remembers when the page needs
+// redrawing (`changed`).
 // No DOM in here either - main.ts passes in the name of each key that is pressed.
 
 import { Creature } from "./Creature.ts";
@@ -10,6 +11,7 @@ export class Game {
   public readonly ant: Creature;
   public readonly rabbit: Creature;
   public selected: Creature;
+  public changed = true; // true when the page needs redrawing - starts true, so the first frame draws the grid
 
   constructor() {
     this.world = new World();
@@ -40,6 +42,16 @@ export class Game {
       this.world.moveCreature(this.selected, 0, -1);
     } else if (key === "ArrowRight") {
       this.world.moveCreature(this.selected, 0, 1);
+    } else {
+      return; // not a key the game uses - nothing has changed
     }
+    this.changed = true;
+  }
+
+  /**
+   * One "tick" of the simulation - main.ts calls it every frame. It does nothing yet: later, creatures
+   * could wander, get hungry, ... and anything that changes the world should set `changed`.
+   */
+  public update(): void {
   }
 }

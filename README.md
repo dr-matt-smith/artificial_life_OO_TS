@@ -19,7 +19,7 @@ solution.
 To switch branch: `git switch ex1-move-creatures-with-keyboard` (and so on). To see everything an exercise
 changed: `git diff main ex1-move-creatures-with-keyboard`.
 
-## This branch: `ex2-separate-model-view-controller` - a solution to exercise 2
+## This branch: `ex3-redraw-only-when-changed` - a solution to exercise 3
 
 - a 20 wide by 12 high grid; each square is empty, or has a creature or food (🥕) in it
 - two creatures: 
@@ -27,11 +27,13 @@ changed: `git diff main ex1-move-creatures-with-keyboard`.
     - the rabbit: 🐇
 - **1** / **2** selects the ant / rabbit; the **arrow keys** move it one step
 - a creature can't move off the grid or into another creature; moving onto food eats it
-- a simple **game loop**: `main.ts` redraws the grid on every animation frame (about 60 a second), using
-  `requestAnimationFrame`
+- a simple **game loop**: every animation frame (about 60 a second, using `requestAnimationFrame`),
+  `main.ts` calls `game.update()`, then redraws the grid **only if `game.changed` is set**
+- `Game` has a `changed` flag: it starts `true` (so the first frame draws the grid), key presses that do
+  something set it, and the game loop clears it after redrawing. `update()` does nothing yet
 - two **counters** above the grid: how many frames have been drawn, and how many times `render()` has been
-  called. They climb together, because the grid is redrawn every frame whether or not anything changed
-  (that is exercise 3)
+  called. Frames climbs about 60 a second, but `render()` calls only go up when something changes - 1 for
+  the start, and 1 for each key press that does something
 
 The code is deliberately simple - there is plenty of room to improve it with design patterns.
 
@@ -72,18 +74,19 @@ game loop.
   or a `Food`. It has the rules for moving: a creature can't leave the grid or walk into another
   creature, and it eats any food it moves onto. Also exports the `WIDTH` and `HEIGHT` constants.
 - `src/Game.ts` - **Game** (the **controller**): creates the world, the ant, the rabbit and the food, and
-  remembers which creature is selected. `handleKey()` turns a key press into a change to the world.
+  remembers which creature is selected. `handleKey()` turns a key press into a change to the world, and
+  sets `changed` so the page is redrawn. `update()` is one tick of the simulation (empty for now).
 - `src/Display.ts` - **Display** (the **view**): the only class that touches the web page. `render()`
   rebuilds the HTML table from the grid (and counts how often it is called); `showCounters()` shows the
   frame and `render()` counts.
 - `src/main.ts` - the entry point (not a class). Creates the `Game` and the `Display`, passes each key
-  press to `game.handleKey()`, and runs the game loop: every frame, `frame()` calls `display.render()`
-  and `display.showCounters()`.
+  press to `game.handleKey()`, and runs the game loop: every frame, `frame()` calls `game.update()`, then
+  `display.render()` only if `game.changed` is set (clearing it afterwards), then `display.showCounters()`.
 
 ### Tests (`tests/`)
 
 - `tests/World.test.ts` - tests for the grid and the movement rules
-- `tests/Game.test.ts` - tests for the player controls (selecting and moving creatures)
+- `tests/Game.test.ts` - tests for the player controls (selecting and moving creatures), and the `changed` flag
 
 ### The web page (`public/`, copied into `dist/` by the build)
 

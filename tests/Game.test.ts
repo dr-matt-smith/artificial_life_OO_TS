@@ -51,3 +51,40 @@ Deno.test("other keys do nothing", () => {
   assertEquals(game.selected, game.ant);
   assertEquals([game.ant.row, game.ant.col], [2, 3]);
 });
+
+Deno.test("a new game starts with changed true, so the first frame draws the grid", () => {
+  const game = new Game();
+  assertEquals(game.changed, true);
+});
+
+Deno.test("keys 1 and 2 set changed", () => {
+  const game = new Game();
+  game.changed = false;
+  game.handleKey("2");
+  assertEquals(game.changed, true);
+
+  game.changed = false;
+  game.handleKey("1");
+  assertEquals(game.changed, true);
+});
+
+Deno.test("an arrow key sets changed", () => {
+  const game = new Game();
+  game.changed = false;
+  game.handleKey("ArrowDown");
+  assertEquals(game.changed, true);
+});
+
+Deno.test("a key the game does not handle leaves changed false", () => {
+  const game = new Game();
+  game.changed = false;
+  game.handleKey("x");
+  assertEquals(game.changed, false);
+});
+
+Deno.test("update() leaves changed false (it does nothing yet)", () => {
+  const game = new Game();
+  game.changed = false;
+  game.update();
+  assertEquals(game.changed, false);
+});
