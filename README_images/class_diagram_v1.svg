@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1030 505" width="1030" height="505" font-family="Menlo, Consolas, monospace" font-size="13">
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse">
+      <path d="M1,1 L11,6 L1,11" fill="none" stroke="#1d3557" stroke-width="1.5"/>
+    </marker>
+  </defs>
+  <style>
+    .box { fill: #ffffff; stroke: #1d3557; stroke-width: 1.5; }
+    .head { fill: #e3eef6; stroke: #1d3557; stroke-width: 1.5; }
+    .title { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-weight: bold; font-size: 15px; fill: #1d3557; }
+    .stereo { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 12px; fill: #5b6472; }
+    .line { stroke: #1d3557; stroke-width: 1.5; fill: none; }
+    .dashed { stroke: #1d3557; stroke-width: 1.5; fill: none; stroke-dasharray: 6 4; }
+    .label { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 12px; fill: #1d3557; }
+    .note { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 12px; fill: #5b6472; }
+    text { fill: #1b1f2a; }
+  </style>
+
+  <rect width="1030" height="505" fill="#ffffff"/>
+
+  <!-- main.ts (view) -->
+  <rect class="box" x="20" y="40" width="270" height="120"/>
+  <rect class="head" x="20" y="40" width="270" height="40"/>
+  <text class="stereo" x="155" y="56" text-anchor="middle">«module» view</text>
+  <text class="title" x="155" y="73" text-anchor="middle">main.ts</text>
+  <text x="30" y="98">game: Game</text>
+  <line class="line" x1="20" y1="108" x2="290" y2="108"/>
+  <text x="30" y="126">render(): void</text>
+  <text x="30" y="144">on keydown: handleKey, render</text>
+
+  <!-- Game (controller) -->
+  <rect class="box" x="400" y="40" width="300" height="160"/>
+  <rect class="head" x="400" y="40" width="300" height="40"/>
+  <text class="stereo" x="550" y="56" text-anchor="middle">controller</text>
+  <text class="title" x="550" y="73" text-anchor="middle">Game</text>
+  <text x="410" y="98">+ world: World</text>
+  <text x="410" y="116">+ ant: Creature</text>
+  <text x="410" y="134">+ rabbit: Creature</text>
+  <text x="410" y="152">+ selected: Creature</text>
+  <line class="line" x1="400" y1="162" x2="700" y2="162"/>
+  <text x="410" y="180">+ constructor()</text>
+  <text x="410" y="196">+ handleKey(key: string): void</text>
+
+  <!-- World (model) -->
+  <rect class="box" x="360" y="280" width="380" height="148"/>
+  <rect class="head" x="360" y="280" width="380" height="40"/>
+  <text class="stereo" x="550" y="296" text-anchor="middle">model</text>
+  <text class="title" x="550" y="313" text-anchor="middle">World</text>
+  <text x="370" y="338">+ grid: (Creature | Food | null)[][]</text>
+  <line class="line" x1="360" y1="348" x2="740" y2="348"/>
+  <text x="370" y="366">+ getSquare(row, col): Creature | Food | null</text>
+  <text x="370" y="384">+ addCreature(creature): void</text>
+  <text x="370" y="402">+ addFood(food, row, col): void</text>
+  <text x="370" y="420">+ moveCreature(creature, dRow, dCol): void</text>
+
+  <!-- Creature -->
+  <rect class="box" x="20" y="280" width="270" height="166"/>
+  <rect class="head" x="20" y="280" width="270" height="40"/>
+  <text class="title" x="155" y="306" text-anchor="middle">Creature</text>
+  <text x="30" y="338">+ name: string</text>
+  <text x="30" y="356">+ image: string</text>
+  <text x="30" y="374">+ row: number</text>
+  <text x="30" y="392">+ col: number</text>
+  <line class="line" x1="20" y1="402" x2="290" y2="402"/>
+  <text x="30" y="420">+ constructor(name, image,</text>
+  <text x="139" y="438">row, col)</text>
+
+  <!-- Food -->
+  <rect class="box" x="810" y="280" width="200" height="94"/>
+  <rect class="head" x="810" y="280" width="200" height="40"/>
+  <text class="title" x="910" y="306" text-anchor="middle">Food</text>
+  <text x="820" y="338">+ image: string</text>
+  <line class="line" x1="810" y1="348" x2="1010" y2="348"/>
+  <text x="820" y="366">+ constructor(image)</text>
+
+  <!-- main.ts has a Game -->
+  <line class="line" x1="290" y1="100" x2="400" y2="100" marker-end="url(#arrow)"/>
+  <text class="label" x="345" y="92" text-anchor="middle">game</text>
+
+  <!-- main.ts uses Creature (instanceof) -->
+  <line class="dashed" x1="155" y1="160" x2="155" y2="280" marker-end="url(#arrow)"/>
+  <text class="label" x="163" y="205">uses (instanceof)</text>
+
+  <!-- Game owns a World (composition) -->
+  <path d="M550,200 L544,210 L550,220 L556,210 Z" fill="#1d3557" stroke="#1d3557" stroke-width="1.5"/>
+  <line class="line" x1="550" y1="220" x2="550" y2="280" marker-end="url(#arrow)"/>
+  <text class="label" x="558" y="246">world</text>
+
+  <!-- Game knows the ant, rabbit, and selected creature -->
+  <line class="line" x1="400" y1="185" x2="250" y2="280" marker-end="url(#arrow)"/>
+  <text class="label" x="284" y="258" text-anchor="end">ant, rabbit, selected</text>
+
+  <!-- Game creates Food -->
+  <line class="dashed" x1="700" y1="120" x2="900" y2="280" marker-end="url(#arrow)"/>
+  <text class="label" x="815" y="190">«creates»</text>
+
+  <!-- World grid holds Creatures and Food (aggregation) -->
+  <path d="M360,380 L350,374 L340,380 L350,386 Z" fill="#ffffff" stroke="#1d3557" stroke-width="1.5"/>
+  <line class="line" x1="340" y1="380" x2="290" y2="380" marker-end="url(#arrow)"/>
+  <text class="label" x="315" y="372" text-anchor="middle">0..*</text>
+
+  <path d="M740,330 L750,324 L760,330 L750,336 Z" fill="#ffffff" stroke="#1d3557" stroke-width="1.5"/>
+  <line class="line" x1="760" y1="330" x2="810" y2="330" marker-end="url(#arrow)"/>
+  <text class="label" x="785" y="322" text-anchor="middle">0..*</text>
+
+  <!-- notes -->
+  <text class="note" x="20" y="470">main.ts also checks instanceof Food. World.ts also exports the constants WIDTH = 20 and HEIGHT = 12.</text>
+  <text class="note" x="20" y="490">◆ composition (owns)    ◇ aggregation (holds)    → association    - - → dependency</text>
+</svg>
