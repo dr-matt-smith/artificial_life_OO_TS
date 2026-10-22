@@ -23,7 +23,7 @@ changed: `git diff main ex1-move-creatures-with-keyboard`.
 Each solution branch also has `exercises/exercise<n>_SOLUTION.md`, which lists every new or changed file,
 with the code to add or change in each.
 
-## This branch: `ex3-redraw-only-when-changed` - a solution to exercise 3
+## This branch: `ex4-observer-pattern` - a solution to exercise 4
 
 - a 20 wide by 12 high grid; each square is empty, or has a creature or food (🥕) in it
 - two creatures: 
@@ -31,13 +31,15 @@ with the code to add or change in each.
     - the rabbit: 🐇
 - **1** / **2** selects the ant / rabbit; the **arrow keys** move it one step
 - a creature can't move off the grid or into another creature; moving onto food eats it
+- the **Observer** pattern: the `Display` is attached to the `World` as an observer. Every change to the
+  world (a creature moves, or is selected) notifies the Display, which redraws - nobody has to check for
+  changes
 - a simple **game loop**: every animation frame (about 60 a second, using `requestAnimationFrame`),
-  `main.ts` calls `game.update()`, then redraws the grid **only if `game.changed` is set**
-- `Game` has a `changed` flag: it starts `true` (so the first frame draws the grid), key presses that do
-  something set it, and the game loop clears it after redrawing. `update()` does nothing yet
+  `main.ts` calls `game.update()` (which does nothing yet), then shows the counters
 - two **counters** above the grid: how many frames have been drawn, and how many times `render()` has been
-  called. Frames climbs about 60 a second, but `render()` calls only go up when something changes - 1 for
-  the start, and 1 for each key press that does something
+  called. Frames climbs about 60 a second, but `render()` calls only go up when the world changes - 1 for
+  the start, and 1 for each change. A move that is blocked (by the edge, or another creature) changes
+  nothing, so it doesn't redraw either
 
 The code is deliberately simple - there is plenty of room to improve it with design patterns.
 
@@ -67,6 +69,15 @@ The code follows **MVC**: `World` is the model, `Display` is the view, and `Game
 `main.ts` is not a class: it creates the game and its display, passes key presses to the game, and runs the
 game loop.
 
+It also follows the **Observer** pattern (Gang of Four):
+
+| GoF role | Class |
+|---|---|
+| Subject | `Subject` - abstract: keeps the list of observers; `attach()`, `detach()`, `notify()` |
+| Observer | `Observer` - an interface: `update(subject)` |
+| ConcreteSubject | `World` - calls `notify()` every time it changes |
+| ConcreteObserver | `Display` - its `update()` redraws the page |
+
 ## The files
 
 ### Classes (`src/`)
@@ -74,23 +85,36 @@ game loop.
 - `src/Creature.ts` - **Creature**: a creature on the grid (the ant or the rabbit). Holds its name, its
   picture, and its row and column.
 - `src/Food.ts` - **Food**: something a creature can eat. Holds just its picture.
-- `src/World.ts` - **World** (the **model**): the 20 x 12 grid. Each square is `null` (empty), a `Creature`
-  or a `Food`. It has the rules for moving: a creature can't leave the grid or walk into another
-  creature, and it eats any food it moves onto. Also exports the `WIDTH` and `HEIGHT` constants.
+- `src/Subject.ts` - **Subject** (abstract): something observers can watch. Keeps a private list of
+  observers; `attach()` and `detach()` add and remove one, and `notify()` (protected) calls `update()` on
+  each of them.
+- `src/Observer.ts` - **Observer** (an interface): anything that wants to be told when a subject changes -
+  just `update(subject)`.
+- `src/World.ts` - **World** (the **model**, and a **Subject**): the 20 x 12 grid. Each square is `null`
+  (empty), a `Creature` or a `Food`. It has the rules for moving: a creature can't leave the grid or walk
+  into another creature, and it eats any food it moves onto. It also holds which creature is selected
+  (`selectCreature()`, `getSelected()`). Every change calls `notify()`. Also exports the `WIDTH` and
+  `HEIGHT` constants.
 - `src/Game.ts` - **Game** (the **controller**): creates the world, the ant, the rabbit and the food, and
-  remembers which creature is selected. `handleKey()` turns a key press into a change to the world, and
-  sets `changed` so the page is redrawn. `update()` is one tick of the simulation (empty for now).
-- `src/Display.ts` - **Display** (the **view**): the only class that touches the web page. `render()`
-  rebuilds the HTML table from the grid (and counts how often it is called); `showCounters()` shows the
-  frame and `render()` counts.
-- `src/main.ts` - the entry point (not a class). Creates the `Game` and the `Display`, passes each key
-  press to `game.handleKey()`, and runs the game loop: every frame, `frame()` calls `game.update()`, then
-  `display.render()` only if `game.changed` is set (clearing it afterwards), then `display.showCounters()`.
+  selects the ant. `handleKey()` turns a key press into a change to the world. `update()` is one tick of the
+  simulation (empty for now).
+- `src/Display.ts` - **Display** (the **view**, and an **Observer**): the only class that touches the web
+  page. `update()` is called by the world when it changes, and calls `render()`, which rebuilds the HTML
+  table from the grid (and counts how often it is called); `showCounters()` shows the frame and `render()`
+  counts.
+- `src/main.ts` - the entry point (not a class). Creates the `Game` and the `Display`, attaches the display
+  to the world (`game.world.attach(display)`), draws the first frame, passes each key press to
+  `game.handleKey()`, and runs the game loop: every frame, `frame()` calls `game.update()`, then
+  `display.showCounters()`.
 
 ### Tests (`tests/`)
 
-- `tests/World.test.ts` - tests for the grid and the movement rules
-- `tests/Game.test.ts` - tests for the player controls (selecting and moving creatures), and the `changed` flag
+- `tests/Subject.test.ts` - tests for attaching, notifying and detaching observers
+- `tests/World.test.ts` - tests for the grid, the movement rules and selecting, and which changes notify
+- `tests/Game.test.ts` - tests for the player controls (selecting and moving creatures), and which key
+  presses notify
+- `tests/CountingObserver.ts` - not a test file: a test observer that counts how often it is told about a
+  change, used by the tests above
 
 ### The web page (`public/`, copied into `dist/` by the build)
 

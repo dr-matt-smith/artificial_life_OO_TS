@@ -2,6 +2,7 @@
 
 import { assertEquals } from "@std/assert";
 import { Game } from "../src/Game.ts";
+import { CountingObserver } from "./CountingObserver.ts";
 
 Deno.test("the game starts with an ant and a rabbit on the grid", () => {
   const game = new Game();
@@ -11,15 +12,15 @@ Deno.test("the game starts with an ant and a rabbit on the grid", () => {
 
 Deno.test("the ant is selected to start with", () => {
   const game = new Game();
-  assertEquals(game.selected, game.ant);
+  assertEquals(game.world.getSelected(), game.ant);
 });
 
 Deno.test("key 2 selects the rabbit, key 1 selects the ant", () => {
   const game = new Game();
   game.handleKey("2");
-  assertEquals(game.selected, game.rabbit);
+  assertEquals(game.world.getSelected(), game.rabbit);
   game.handleKey("1");
-  assertEquals(game.selected, game.ant);
+  assertEquals(game.world.getSelected(), game.ant);
 });
 
 Deno.test("arrow keys move the selected creature one step", () => {
@@ -48,43 +49,59 @@ Deno.test("arrow keys only move the selected creature", () => {
 Deno.test("other keys do nothing", () => {
   const game = new Game();
   game.handleKey("x");
-  assertEquals(game.selected, game.ant);
+  assertEquals(game.world.getSelected(), game.ant);
   assertEquals([game.ant.row, game.ant.col], [2, 3]);
 });
 
-Deno.test("a new game starts with changed true, so the first frame draws the grid", () => {
+Deno.test("a key that selects a creature notifies the world's observers", () => {
   const game = new Game();
-  assertEquals(game.changed, true);
-});
+  const observer = new CountingObserver();
+  game.world.attach(observer);
 
-Deno.test("keys 1 and 2 set changed", () => {
-  const game = new Game();
-  game.changed = false;
   game.handleKey("2");
-  assertEquals(game.changed, true);
 
-  game.changed = false;
-  game.handleKey("1");
-  assertEquals(game.changed, true);
+  assertEquals(observer.count, 1);
 });
 
-Deno.test("an arrow key sets changed", () => {
+Deno.test("an arrow key that moves the creature notifies the world's observers", () => {
   const game = new Game();
-  game.changed = false;
+  const observer = new CountingObserver();
+  game.world.attach(observer);
+
   game.handleKey("ArrowDown");
-  assertEquals(game.changed, true);
+
+  assertEquals(observer.count, 1);
 });
 
-Deno.test("a key the game does not handle leaves changed false", () => {
+Deno.test("an arrow key that is blocked by the edge notifies nobody", () => {
   const game = new Game();
-  game.changed = false;
+  game.handleKey("ArrowUp"); // the ant starts in row 2 - up twice takes it to row 0, the top edge
+  game.handleKey("ArrowUp");
+  const observer = new CountingObserver();
+  game.world.attach(observer);
+
+  game.handleKey("ArrowUp");
+
+  assertEquals(game.ant.row, 0);
+  assertEquals(observer.count, 0);
+});
+
+Deno.test("a key the game does not handle notifies nobody", () => {
+  const game = new Game();
+  const observer = new CountingObserver();
+  game.world.attach(observer);
+
   game.handleKey("x");
-  assertEquals(game.changed, false);
+
+  assertEquals(observer.count, 0);
 });
 
-Deno.test("update() leaves changed false (it does nothing yet)", () => {
+Deno.test("update() notifies nobody (it does nothing yet)", () => {
   const game = new Game();
-  game.changed = false;
+  const observer = new CountingObserver();
+  game.world.attach(observer);
+
   game.update();
-  assertEquals(game.changed, false);
+
+  assertEquals(observer.count, 0);
 });
