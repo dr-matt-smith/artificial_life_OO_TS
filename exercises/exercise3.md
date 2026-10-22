@@ -1,8 +1,7 @@
 # Exercise 3 - redraw only when something changed
 
 start from: branch `ex2-separate-model-view-controller`
-
-features:
+a solution: branch `ex3-redraw-only-when-changed`
 
 ## game loop
 main.ts runs a loop with requestAnimationFrame - about 60 frames a second
@@ -42,7 +41,7 @@ shown above the grid:
 - Frames climbs about 60 a second
 - render() calls only goes up when something actually changes (1 for the start, +1 per handled key press)
 
-this is the point of version 2: the expensive work (rebuilding the HTML table) only happens when needed
+this is the point of this exercise: the expensive work (rebuilding the HTML table) only happens when needed
 
 ## tests (tests/Game.test.ts)
 - a new game starts with `changed` true
@@ -56,4 +55,4 @@ an arrow key that bumps into the edge, or another creature, does not move anythi
 (hint: make World.moveCreature() return true if the creature moved)
 
 ## code style
-very simple OO TS
+very simple OO TS - write `public` / `private` (and `readonly`) on every property and method
