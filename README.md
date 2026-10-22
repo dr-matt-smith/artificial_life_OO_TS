@@ -14,7 +14,7 @@ solution.
 |---|---|---|---|
 | [1](exercises/exercise1.md) | move the creatures with the keyboard | `main` | `ex1-move-creatures-with-keyboard` |
 | [2](exercises/exercise2.md) | separate Model, Display (view) and Game (controller) - **MVC** | `ex1-move-creatures-with-keyboard` | `ex2-separate-model-view-controller` |
-| [3](exercises/exercise3.md) | redraw only when something changed | `ex2-separate-model-view-controller` | - |
+| [3](exercises/exercise3.md) | redraw only when something changed | `ex2-separate-model-view-controller` | `ex3-redraw-only-when-changed` |
 
 To switch branch: `git switch ex1-move-creatures-with-keyboard` (and so on). To see everything an exercise
 changed: `git diff main ex1-move-creatures-with-keyboard`.
