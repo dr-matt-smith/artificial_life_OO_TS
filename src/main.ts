@@ -18,7 +18,7 @@ document.addEventListener("keydown", (event) => {
 
 
 // Counts every frame the browser draws (about 60 a second), and shows it next to the number of
-// render() calls - which only goes up when a key is pressed.
+// render() calls.
 let frameCount = 0;
 function frame(): void {
     // (1) increment frame count
@@ -27,7 +27,7 @@ function frame(): void {
     // (2) update HTML display of world grid data
     display.render();
 
-    // (3) update HTML display of counters 
+    // (3) update HTML display of counters
     display.showCounters(frameCount);
 
     // (4) repeat this game loop next frame ....
