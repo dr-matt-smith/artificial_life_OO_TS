@@ -3,8 +3,9 @@
 A 20 x 12 grid with an ant, a rabbit and some food - a starting point for exploring design patterns
 (MVC, observer / pub-sub, state, ...).
 
-This folder is one of the Artificial Life projects - **a solution to exercise 4**. The [main README](../README.md) lists them
-all, and the exercises are in [`../exercises/`](../exercises/).
+This folder is a project of its own - **a solution to exercise 4**. Open it in Celbridge, and work in it
+on its own. The exercises are in [`exercises/`](exercises/), and the [README one folder up](../README.md)
+lists all the projects.
 
 ![screenshot](README_images/screenshot1.webp)
 
@@ -30,25 +31,23 @@ The code is deliberately simple - there is plenty of room to improve it with des
 
 ## Running it
 
-From a terminal in this folder (`ex4-observer-pattern/`):
-
-```bash
-deno task dev
-```
+Open this folder in Celbridge - it is a Celbridge project of its own (`artificial_life_ex4.celbridge`). The
+console at the bottom starts by itself, and runs `deno task dev`:
 
 1. **builds** `src/` (TypeScript) and `public/` (HTML, CSS, images) into `dist/`
-2. **tests** everything in `tests/`, printing the results in the terminal (in TAP format) and writing a
+2. **tests** everything in `tests/`, printing the results in the console (in TAP format) and writing a
    readable report to `test_output/index.html` (and `test_output/summary.md`)
 3. **watches** - every time you save a file in `src/`, `public/` or `tests/`, it does it all again. Only
    one build runs at a time: saving during a build just means one more build once it has finished
 
-Open `dist/index.html` in a browser - no server is needed, `dist/` is a plain web page - and refresh it after
-each rebuild. Press **Ctrl+C** to stop watching.
+`dist/index.html` opens beside the console. After a rebuild, its preview's **refresh** button lights
+up - press it to see your changes. The clipboard icon opens the test report.
 
-The other tasks: `deno task build` (build and test, once), `deno task test` (test, once) and `deno task lint`
-(look for likely mistakes and bad habits).
+The console's buttons: rebuild-and-watch, build once, test once, and lint. To use them while the
+watcher is running, press **Ctrl+C** first to stop it.
 
-In Celbridge, the console's buttons run these for each project - see the [main README](../README.md).
+Without Celbridge: run `deno task dev` from a terminal in this folder, and open `dist/index.html` in any
+browser - no server is needed, `dist/` is a plain web page.
 
 ## Class diagram
 
@@ -114,10 +113,17 @@ It also follows the **Observer** pattern (Gang of Four):
 
 ### Everything else
 
+- `exercises/` - the exercises: what to build next, step by step, and the solution
+  notes (`exercise<n>_SOLUTION.md`) for the exercises solved so far
 - `README_images/` - pictures used in this README
 - `build.ts` - builds `src/` and `public/` into `dist/`, then runs the tests; with `--watch` it rebuilds on
   every save (you never need to edit it)
 - `deno.json` - the `deno task` commands (`dev`, `build`, `test`, `check`, `lint`) and settings
 - `deno.lock` - the exact versions of the libraries the tests use
+- `terminal.console` - the Celbridge console, and its buttons
+- `claude.console` - a Celbridge console for Claude
+- `artificial_life_ex4.celbridge` - the Celbridge project file (which files open when the project loads)
 - `tools/test_report.ts` - runs the tests and writes the report in `test_output/`
+- `tools/emoji-sprite/`, `tools/image-editor/`, `tools/sound-fx/` - Celbridge tools for making sprites,
+  editing images, and making sound effects
 - `dist/`, `test_output/` - made by the build; don't edit these, they are rebuilt on every save

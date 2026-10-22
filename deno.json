@@ -1,9 +1,0 @@
-{
-  "tasks": {
-    "start": "cd start && deno task dev",
-    "ex1": "cd ex1-move-with-keyboard && deno task dev",
-    "ex2": "cd ex2-separate-model-view-controller && deno task dev",
-    "ex3": "cd ex3-redraw-only-when-changed && deno task dev",
-    "ex4": "cd ex4-observer-pattern && deno task dev"
-  }
-}

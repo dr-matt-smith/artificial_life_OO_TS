@@ -1,5 +1,5 @@
 // The whole game in ONE class: the grid of squares, the creatures and the food, and drawing the grid on the
-// page. Nothing moves yet - see ../exercises/exercise1.md.
+// page. Nothing moves yet - see exercises/exercise1.md.
 
 import { Creature } from "./Creature.ts";
 import { Food } from "./Food.ts";
