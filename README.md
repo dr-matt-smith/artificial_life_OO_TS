@@ -19,6 +19,9 @@ solution.
 To switch branch: `git switch ex1-move-creatures-with-keyboard` (and so on). To see everything an exercise
 changed: `git diff main ex1-move-creatures-with-keyboard`.
 
+Each solution branch also has `exercises/exercise<n>_SOLUTION.md`, which lists every new or changed file,
+with the code to add or change in each.
+
 ## This branch: `ex1-move-creatures-with-keyboard` - a solution to exercise 1
 
 - a 20 wide by 12 high grid; each square is empty, or has a creature or food (🥕) in it
