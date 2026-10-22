@@ -1,4 +1,4 @@
-// Tests for setting up the game in src/Game.ts.
+// Tests for the player controls in src/Game.ts.
 
 import { assertEquals } from "@std/assert";
 import { Game } from "../src/Game.ts";
@@ -12,4 +12,42 @@ Deno.test("the game starts with an ant and a rabbit on the grid", () => {
 Deno.test("the ant is selected to start with", () => {
   const game = new Game();
   assertEquals(game.selected, game.ant);
+});
+
+Deno.test("key 2 selects the rabbit, key 1 selects the ant", () => {
+  const game = new Game();
+  game.handleKey("2");
+  assertEquals(game.selected, game.rabbit);
+  game.handleKey("1");
+  assertEquals(game.selected, game.ant);
+});
+
+Deno.test("arrow keys move the selected creature one step", () => {
+  const game = new Game();
+  const row = game.ant.row;
+  const col = game.ant.col;
+
+  game.handleKey("ArrowDown");
+  assertEquals([game.ant.row, game.ant.col], [row + 1, col]);
+  game.handleKey("ArrowRight");
+  assertEquals([game.ant.row, game.ant.col], [row + 1, col + 1]);
+  game.handleKey("ArrowUp");
+  assertEquals([game.ant.row, game.ant.col], [row, col + 1]);
+  game.handleKey("ArrowLeft");
+  assertEquals([game.ant.row, game.ant.col], [row, col]);
+});
+
+Deno.test("arrow keys only move the selected creature", () => {
+  const game = new Game();
+  const rabbitRow = game.rabbit.row;
+  game.handleKey("1");
+  game.handleKey("ArrowDown");
+  assertEquals(game.rabbit.row, rabbitRow);
+});
+
+Deno.test("other keys do nothing", () => {
+  const game = new Game();
+  game.handleKey("x");
+  assertEquals(game.selected, game.ant);
+  assertEquals([game.ant.row, game.ant.col], [2, 3]);
 });

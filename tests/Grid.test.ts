@@ -32,3 +32,54 @@ Deno.test("food can be added to the grid", () => {
   game.addFood(food, 5, 6);
   assertEquals(game.getSquare(5, 6), food);
 });
+
+Deno.test("moving a creature updates its position and the grid", () => {
+  const game = new Game();
+  const ant = new Creature("ant", "ant.png", 3, 4);
+  game.addCreature(ant);
+
+  game.moveCreature(ant, 0, 1);
+
+  assertEquals(ant.row, 3);
+  assertEquals(ant.col, 5);
+  assertEquals(game.getSquare(3, 5), ant);
+  assertEquals(game.getSquare(3, 4), null);
+});
+
+Deno.test("a creature cannot move off the edge of the grid", () => {
+  const game = new Game();
+  const ant = new Creature("ant", "ant.png", 0, 0);
+  game.addCreature(ant);
+
+  game.moveCreature(ant, -1, 0);
+  game.moveCreature(ant, 0, -1);
+
+  assertEquals(ant.row, 0);
+  assertEquals(ant.col, 0);
+  assertEquals(game.getSquare(0, 0), ant);
+});
+
+Deno.test("a creature cannot move into another creature", () => {
+  const game = new Game();
+  const ant = new Creature("ant", "ant.png", 3, 4);
+  const rabbit = new Creature("rabbit", "rabbit.png", 3, 5);
+  game.addCreature(ant);
+  game.addCreature(rabbit);
+
+  game.moveCreature(ant, 0, 1);
+
+  assertEquals(ant.col, 4);
+  assertEquals(game.getSquare(3, 4), ant);
+  assertEquals(game.getSquare(3, 5), rabbit);
+});
+
+Deno.test("a creature that moves onto food eats it", () => {
+  const game = new Game();
+  const ant = new Creature("ant", "ant.png", 3, 4);
+  game.addCreature(ant);
+  game.addFood(new Food("heart.png"), 3, 5);
+
+  game.moveCreature(ant, 0, 1);
+
+  assertEquals(game.getSquare(3, 5), ant);
+});
