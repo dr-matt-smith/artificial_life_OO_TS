@@ -1,7 +1,7 @@
 # Exercise 1 - move creatures with the keyboard
 
-start from: `main`
-a solution: branch `ex1-move-creatures-with-keyboard`
+start from: folder `start/`
+a solution: folder `ex1-move-with-keyboard/`
 
 ## where you start
 a 20 wide by 12 high grid - each square is empty, or has a creature or food in it

@@ -1,6 +1,6 @@
 # Exercise 6 - the State pattern: creatures with a life of their own
 
-start from: branch `ex4-observer-pattern`, or your own exercise 5
+start from: folder `ex4-observer-pattern/`, or your own exercise 5
 a solution: none - this one is for you to explore in your own way. Below are ideas, questions and hints, not
 a recipe
 

@@ -3,108 +3,87 @@
 A 20 x 12 grid with an ant, a rabbit and some food - a starting point for exploring design patterns
 (MVC, observer / pub-sub, state, ...).
 
-![screesnhot](README_images/screenshot1.webp)
+![screenshot](README_images/screenshot1.webp)
+
+## The projects
+
+Each folder is a complete project of its own - the starting point, and a solution to each exercise. Download
+(or clone) the repository and you have them all.
+
+| Folder | What it is |
+|---|---|
+| [`start/`](start/) | the starting point: the grid, the creatures and the food, all in one `Game` class - nothing moves yet |
+| [`ex1-move-with-keyboard/`](ex1-move-with-keyboard/) | a solution to exercise 1 - move the creatures with the keyboard |
+| [`ex2-separate-model-view-controller/`](ex2-separate-model-view-controller/) | a solution to exercise 2 - **MVC**: `World`, `Display` and `Game` |
+| [`ex3-redraw-only-when-changed/`](ex3-redraw-only-when-changed/) | a solution to exercise 3 - a `changed` flag, so the grid is only redrawn when needed |
+| [`ex4-observer-pattern/`](ex4-observer-pattern/) | a solution to exercise 4 - the **Observer** pattern |
+
+Each project's own README describes its code, with a class diagram.
 
 ## Exercises
 
-Each exercise is in `exercises/`. Start from the branch in the "start from" column; the next branch has a
-solution. Exercises 5 and 6 are open-ended: ideas and questions to explore in your own way, with no solution
-branch.
+The exercises are in [`exercises/`](exercises/). Start from the folder in the "start from" column; the folder in
+the "a solution" column has one.
 
 | Exercise | What you do | Start from | A solution |
 |---|---|---|---|
-| [1](exercises/exercise1.md) | move the creatures with the keyboard | `main` | `ex1-move-creatures-with-keyboard` |
-| [2](exercises/exercise2.md) | separate Model, Display (view) and Game (controller) - **MVC** | `ex1-move-creatures-with-keyboard` | `ex2-separate-model-view-controller` |
-| [3](exercises/exercise3.md) | redraw only when something changed | `ex2-separate-model-view-controller` | `ex3-redraw-only-when-changed` |
-| [4](exercises/exercise4.md) | tell the view when the model changes - the **Observer** pattern | `ex3-redraw-only-when-changed` | `ex4-observer-pattern` |
-| [5](exercises/exercise5.md) | an event bus with named topics - **publish / subscribe** | `ex4-observer-pattern` | none - explore your own way |
-| [6](exercises/exercise6.md) | creatures that wander, get hungry and eat - the **State** pattern | `ex4-observer-pattern`, or your exercise 5 | none - explore your own way |
+| [1](exercises/exercise1.md) | move the creatures with the keyboard | `start/` | `ex1-move-with-keyboard/` |
+| [2](exercises/exercise2.md) | separate Model, Display (view) and Game (controller) - **MVC** | `ex1-move-with-keyboard/` | `ex2-separate-model-view-controller/` |
+| [3](exercises/exercise3.md) | redraw only when something changed | `ex2-separate-model-view-controller/` | `ex3-redraw-only-when-changed/` |
+| [4](exercises/exercise4.md) | tell the view when the model changes - the **Observer** pattern | `ex3-redraw-only-when-changed/` | `ex4-observer-pattern/` |
+| [5](exercises/exercise5.md) | an event bus with named topics - **publish / subscribe** | `ex4-observer-pattern/` | none - explore your own way |
+| [6](exercises/exercise6.md) | creatures that wander, get hungry and eat - the **State** pattern | `ex4-observer-pattern/`, or your exercise 5 | none - explore your own way |
 
-To switch branch: `git switch ex1-move-creatures-with-keyboard` (and so on). To see everything an exercise
-changed: `git diff main ex1-move-creatures-with-keyboard`.
+Exercises 5 and 6 are open-ended: ideas and questions to explore in your own way, with no solution.
 
-Each solution branch also has `exercises/exercise<n>_SOLUTION.md`, which lists every new or changed file,
+For exercises 1 to 4 there is also `exercises/exercise<n>_SOLUTION.md`, which lists every new or changed file,
 with the code to add or change in each.
 
-## This branch: `main` - the starting point
+**To do an exercise**, make your own copy of the "start from" folder, and work in the copy - so you can
+always compare with the original. For example, from a terminal in this folder:
 
-- a 20 wide by 12 high grid; each square is empty, or has a creature or food (🥕) in it
-- two creatures: 
-    - the ant: 🐜
-    - the rabbit: 🐇
-- the ant is selected to start with; nothing moves yet (that is exercise 1)
-- a simple **game loop**: `main.ts` redraws the grid on every animation frame (about 60 a second), using
-  `requestAnimationFrame`
-- two **counters** above the grid: how many frames have been drawn, and how many times `render()` has been
-  called. They climb together, because the grid is redrawn every frame whether or not anything changed
-  (that is exercise 3)
+```bash
+cp -r start my-ex1
+```
 
-The code is deliberately simple - there is plenty of room to improve it with design patterns.
+To see everything a solution changed, compare the two folders, e.g.:
 
-## Running it
+```bash
+git diff --no-index start/src ex1-move-with-keyboard/src
+```
 
-Open the project in Celbridge. The console at the bottom starts by itself, and runs `deno task dev`:
+## Running a project
 
-1. **builds** `src/` (TypeScript) and `public/` (HTML, CSS, images) into `dist/`
-2. **tests** everything in `tests/`, printing the results in the console (in TAP format) and writing a
-   readable report to `test_output/index.html` (and `test_output/summary.md`)
-3. **watches** - every time you save a file in `src/`, `public/` or `tests/`, it does it all again. Only
-   one build runs at a time: saving during a build just means one more build once it has finished
+Every project runs on its own, with [Deno](https://deno.com). From a terminal in the project's folder:
 
-`dist/index.html` opens beside the console. After a rebuild, its preview's **refresh** button lights
-up - press it to see your changes. The clipboard icon opens the test report.
+```bash
+deno task dev
+```
 
-The console's buttons: rebuild-and-watch, build once, test once, and lint. To use them while the
-watcher is running, press **Ctrl+C** first to stop it.
+That builds the project into its `dist/` folder, runs its tests, and rebuilds and retests every time you save a
+file. Open the project's `dist/index.html` in a browser - no server is needed. Each project's README has the
+details.
 
-No server is needed: `dist/` is a plain web page, so you can also open `dist/index.html` in any browser.
+From this top folder, `deno task <name>` does the same for one project, without changing folder:
+`deno task start`, `deno task ex1`, `deno task ex2`, `deno task ex3` or `deno task ex4`.
 
-## Class diagram
+### In Celbridge
 
-![Class diagram](README_images/class_diagram_v1.svg)
-
-**One class does everything**: `Game` holds the grid (the model) and draws the page (the view).
-
-`main.ts` is not a class: it creates the game and runs the game loop.
+Open this top folder as the Celbridge project. The console at the bottom starts the `start/` project by
+itself (`deno task start`), and opens `start/dist/index.html` beside it. The console's buttons run the other
+projects: press **Ctrl+C** first to stop the one that is running. To see another project's page, open its
+`dist/index.html`.
 
 ## The files
 
-### Classes (`src/`)
-
-- `src/Creature.ts` - **Creature**: a creature on the grid (the ant or the rabbit). Holds its name, its
-  picture, and its row and column.
-- `src/Food.ts` - **Food**: something a creature can eat. Holds just its picture.
-- `src/Game.ts` - **Game**: the whole game in one class.
-  - the 20 x 12 grid: each square is `null` (empty), a `Creature` or a `Food`
-  - creates the ant, the rabbit and the food, and remembers which creature is selected
-  - `render()` rebuilds the HTML table from the grid (and counts how often it is called);
-    `showCounters()` shows the frame and `render()` counts
-  - also exports the `WIDTH` and `HEIGHT` constants
-- `src/main.ts` - the entry point (not a class). Creates the `Game` and runs the game loop: every frame,
-  `frame()` calls `game.render()` and `game.showCounters()`.
-
-### Tests (`tests/`)
-
-- `tests/Grid.test.ts` - tests for the grid
-- `tests/Game.test.ts` - tests for setting up the game (the creatures, and which one is selected)
-
-### The web page (`public/`, copied into `dist/` by the build)
-
-- `public/index.html` - the page: a heading, the instructions, the status and counters lines, and the
-  empty `<table>` that `Game` fills
-- `public/css/styles.css` - the look; the grid's styles are at the bottom, under "this project"
-- `public/images/sprites/` - the PNG pictures for the creatures and food
-
-### Everything else
-
-- `exercises/` - the exercises: what to build next, step by step
+- `start/`, `ex1-.../` ... `ex4-.../` - the projects (see above). Each has its own `src/`, `tests/`,
+  `public/`, `build.ts`, `deno.json` and `tools/test_report.ts`, so any one of them can be copied out and run
+  on its own
+- `exercises/` - the exercises, and the solution notes for exercises 1 to 4
 - `README_images/` - pictures used in this README
-- `build.ts` - builds `src/` and `public/` into `dist/`, then runs the tests; with `--watch` it rebuilds on
-  every save (you never need to edit it)
-- `deno.json` - the `deno task` commands (`dev`, `build`, `test`, `check`, `lint`) and settings
+- `deno.json` - `deno task start`, `deno task ex1`, ... - run a project from this top folder
 - `terminal.console` - the Celbridge console, and its buttons
+- `claude.console` - a Celbridge console for Claude
 - `artificial_life.celbridge` - the Celbridge project file (which files open when the project loads)
-- `tools/test_report.ts` - runs the tests and writes the report in `test_output/`
 - `tools/emoji-sprite/`, `tools/image-editor/`, `tools/sound-fx/` - Celbridge tools for making sprites,
   editing images, and making sound effects
-- `dist/`, `test_output/` - made by the build; don't edit these, they are rebuilt on every save

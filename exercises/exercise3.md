@@ -1,7 +1,7 @@
 # Exercise 3 - redraw only when something changed
 
-start from: branch `ex2-separate-model-view-controller`
-a solution: branch `ex3-redraw-only-when-changed`
+start from: folder `ex2-separate-model-view-controller/`
+a solution: folder `ex3-redraw-only-when-changed/`
 
 ## game loop
 main.ts runs a loop with requestAnimationFrame - about 60 frames a second

@@ -1,7 +1,7 @@
 # Exercise 2 - separate Model, Display (view) and Game (controller)
 
-start from: branch `ex1-move-creatures-with-keyboard`
-a solution: branch `ex2-separate-model-view-controller`
+start from: folder `ex1-move-with-keyboard/`
+a solution: folder `ex2-separate-model-view-controller/`
 
 ## the problem
 `Game` does every job:

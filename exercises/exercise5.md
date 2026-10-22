@@ -1,6 +1,6 @@
 # Exercise 5 - publish / subscribe (an event bus)
 
-start from: branch `ex4-observer-pattern`
+start from: folder `ex4-observer-pattern/`
 a solution: none - this one is for you to explore in your own way. Below are ideas, questions and hints, not
 a recipe
 

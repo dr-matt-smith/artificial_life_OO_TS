@@ -1,5 +1,6 @@
-// The whole game in ONE class: the grid of squares, the creatures and the food, and drawing the grid on the
-// page. Nothing moves yet - see exercises/exercise1.md.
+// The whole game in ONE class: the grid of squares and the rules for moving (model), turning key presses into
+// changes (controller), and drawing the grid on the page (view) - all mixed together.
+// A starting point to pull apart into separate classes, following the MVC pattern.
 
 import { Creature } from "./Creature.ts";
 import { Food } from "./Food.ts";
@@ -50,6 +51,44 @@ export class Game {
   /** Puts some food in a square. */
   public addFood(food: Food, row: number, col: number): void {
     this.grid[row][col] = food;
+  }
+
+  /**
+   * Moves a creature one step (dRow, dCol). It stays where it is if that would take it off the
+   * grid, or into another creature. If there is food there, it eats it.
+   */
+  public moveCreature(creature: Creature, dRow: number, dCol: number): void {
+    const newRow = creature.row + dRow;
+    const newCol = creature.col + dCol;
+
+    if (newRow < 0 || newRow >= HEIGHT || newCol < 0 || newCol >= WIDTH) {
+      return; // off the edge
+    }
+    if (this.grid[newRow][newCol] instanceof Creature) {
+      return; // square already taken
+    }
+
+    this.grid[creature.row][creature.col] = null;
+    creature.row = newRow;
+    creature.col = newCol;
+    this.grid[newRow][newCol] = creature; // replaces any food that was there
+  }
+
+  /** Handles one key press, e.g. "1", "2", "ArrowUp". */
+  public handleKey(key: string): void {
+    if (key === "1") {
+      this.selected = this.ant;
+    } else if (key === "2") {
+      this.selected = this.rabbit;
+    } else if (key === "ArrowUp") {
+      this.moveCreature(this.selected, -1, 0);
+    } else if (key === "ArrowDown") {
+      this.moveCreature(this.selected, 1, 0);
+    } else if (key === "ArrowLeft") {
+      this.moveCreature(this.selected, 0, -1);
+    } else if (key === "ArrowRight") {
+      this.moveCreature(this.selected, 0, 1);
+    }
   }
 
   /** Shows the frame count and the render() count. Called every frame, so it is kept cheap. */

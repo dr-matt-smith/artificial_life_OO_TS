@@ -15,13 +15,13 @@ area = "bottom"
 open-on-load = true
 
 [[shortcut]]
-resource = "dist/index.html"
+resource = "start/dist/index.html"
 icon = "bs-window"
 area = "side"
 open-on-load = true
 
 [[shortcut]]
-resource = "test_output/index.html"
+resource = "start/test_output/index.html"
 icon = "bs-clipboard-check"
 area = "side"
 

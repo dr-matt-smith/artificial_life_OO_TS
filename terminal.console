@@ -2,24 +2,29 @@
 type = "shell"
 
 [session.shell]
-script = "deno task dev"
+script = "deno task start"
 
 [[session.shortcut]]
-label = "build, test, and watch for changes (press Ctrl+C first if it is already running)"
+label = "start/ - build, test, and watch for changes (press Ctrl+C first if a project is already running)"
 icon = "bs-arrow-repeat"
-text = "deno task dev"
+text = "deno task start"
 
 [[session.shortcut]]
-label = "build into dist/ and test, once"
-icon = "bs-hammer"
-text = "deno task build"
+label = "ex1-move-with-keyboard/ - build, test, and watch (press Ctrl+C first if a project is already running)"
+icon = "bs-arrow-repeat"
+text = "deno task ex1"
 
 [[session.shortcut]]
-label = "run the tests, once"
-icon = "bs-clipboard-check"
-text = "deno task test"
+label = "ex2-separate-model-view-controller/ - build, test, and watch (press Ctrl+C first if a project is already running)"
+icon = "bs-arrow-repeat"
+text = "deno task ex2"
 
 [[session.shortcut]]
-label = "lint: look for likely mistakes and bad habits"
-icon = "bs-search"
-text = "deno task lint"
+label = "ex3-redraw-only-when-changed/ - build, test, and watch (press Ctrl+C first if a project is already running)"
+icon = "bs-arrow-repeat"
+text = "deno task ex3"
+
+[[session.shortcut]]
+label = "ex4-observer-pattern/ - build, test, and watch (press Ctrl+C first if a project is already running)"
+icon = "bs-arrow-repeat"
+text = "deno task ex4"

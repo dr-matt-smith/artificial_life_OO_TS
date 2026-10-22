@@ -1,7 +1,7 @@
 # Exercise 4 - the Observer pattern
 
-start from: branch `ex3-redraw-only-when-changed`
-a solution: branch `ex4-observer-pattern`
+start from: folder `ex3-redraw-only-when-changed/`
+a solution: folder `ex4-observer-pattern/`
 
 ## the problem
 in exercise 3, nobody TELLS the view that something changed:

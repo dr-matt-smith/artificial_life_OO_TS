@@ -1,0 +1,80 @@
+/* Shared look for the book's projects. Change anything you like. */
+:root {
+  --bg: #f1faee;
+  --card: #ffffff;
+  --text: #1b1f2a;
+  --muted: #5b6472;
+  --accent: #457b9d;
+  --accent-dark: #1d3557;
+  --good: #2a9d8f;
+  --bad: #e63946;
+  --line: #d6dde4;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16191f;
+    --card: #1f232b;
+    --text: #e8eaed;
+    --muted: #9aa3ad;
+    --accent: #a8dadc;
+    --accent-dark: #a8dadc;
+    --line: #333a45;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+main { max-width: 760px; margin: 0 auto; padding: 16px; }
+h1 { color: var(--accent-dark); margin-top: 0.5em; }
+button {
+  font: inherit;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+button:hover { filter: brightness(1.1); }
+button.secondary { background: transparent; color: var(--accent); }
+input, select { font: inherit; padding: 5px 8px; border-radius: 6px; border: 1px solid var(--line); }
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 12px 0;
+}
+.muted { color: var(--muted); }
+.good { color: var(--good); }
+.bad { color: var(--bad); }
+
+/* --- this project --- */
+main { max-width: none; } /* use the full width of the window */
+
+/* Each square is as big as fits: the window width / 20 columns, or the height / 12 rows, whichever is
+   smaller (so squares stay square). 220px leaves room for the heading and text above the grid. */
+:root { --square: min(calc((100vw - 32px) / 20), calc((100vh - 220px) / 12)); }
+
+#grid { border-collapse: collapse; background: var(--card); margin: 0 auto; }
+#grid td {
+  background: #c8f0c0; /* light green - shows through the transparent sprites */
+  width: var(--square);
+  min-width: 24px;
+  height: var(--square);
+  padding: 0;
+  border: 1px solid var(--line);
+  text-align: center;
+}
+#grid img { width: 85%; height: auto; display: block; margin: auto; }
+
+/* yellow outline */
+#grid td.selected { 
+    outline: 2px solid #008f18; 
+    outline-offset: -2px; 
+} 
+#grid img[alt="rabbit"] { filter: brightness(0.8); } /* darker rabbit, so it shows up on the green */
