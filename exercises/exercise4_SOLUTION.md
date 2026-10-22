@@ -576,7 +576,8 @@ Deno.test("update() notifies nobody (it does nothing yet)", () => {
   - each move, and each press of 1 or 2, adds 1
   - pressing `x` adds nothing - and NOW an arrow key that bumps into the edge or the other creature adds
     nothing too (the exercise 3 stretch task, for free)
-- `grep changed src/` finds nothing - nobody checks for changes any more: the world announces them
+- `grep -E "(this|game)\.changed" src/` finds nothing - the flag is gone: nobody checks for changes any
+  more, the world announces them
 
 ## the trade-off to discuss
 the Display now redraws once for EVERY change. Today that is at most one per key press, so it doesn't
