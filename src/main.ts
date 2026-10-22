@@ -1,18 +1,8 @@
-// main.ts starts everything: it creates the game, passes each key press to it, and runs the game loop.
+// main.ts starts everything: it creates the game and runs the game loop.
 
 import { Game } from "./Game.ts";
 
 const game = new Game();
-
-document.addEventListener("keydown", (event) => {
-  game.handleKey(event.key);
-
-  if (event.key.startsWith("Arrow")) {
-    event.preventDefault(); // stop the arrow keys scrolling the page
-  }
-  game.render();
-});
-
 
 // Counts every frame the browser draws (about 60 a second), and shows it next to the number of
 // render() calls.

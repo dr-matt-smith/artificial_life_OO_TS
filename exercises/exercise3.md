@@ -1,8 +1,6 @@
-Technical Design Docs (TDDs)
+# Exercise 3 - redraw only when something changed
 
-# version 2 - artificial life - redraw only when something changed
-
-builds on version 1
+start from: branch `ex2-separate-model-view-controller`
 
 features:
 
