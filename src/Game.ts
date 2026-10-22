@@ -6,10 +6,10 @@ import { Food } from "./Food.ts";
 import { World } from "./World.ts";
 
 export class Game {
-  world: World;
-  ant: Creature;
-  rabbit: Creature;
-  selected: Creature;
+  public readonly world: World;
+  public readonly ant: Creature;
+  public readonly rabbit: Creature;
+  public selected: Creature;
 
   constructor() {
     this.world = new World();
@@ -27,7 +27,7 @@ export class Game {
   }
 
   /** Handles one key press, e.g. "1", "2", "ArrowUp". */
-  handleKey(key: string): void {
+  public handleKey(key: string): void {
     if (key === "1") {
       this.selected = this.ant;
     } else if (key === "2") {

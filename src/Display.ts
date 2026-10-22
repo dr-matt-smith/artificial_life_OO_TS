@@ -6,11 +6,11 @@ import { Food } from "./Food.ts";
 import { Game } from "./Game.ts";
 
 export class Display {
-  game: Game;
-  table: HTMLTableElement | null;
-  status: HTMLParagraphElement | null;
-  counters: HTMLParagraphElement | null;
-  renderCount = 0; // how many times render() has been called
+  private readonly game: Game;
+  private readonly table: HTMLTableElement | null;
+  private readonly status: HTMLParagraphElement | null;
+  private readonly counters: HTMLParagraphElement | null;
+  private renderCount = 0; // how many times render() has been called
 
   constructor(game: Game) {
     this.game = game;
@@ -20,13 +20,13 @@ export class Display {
   }
 
   /** Shows the frame count and the render() count. Called every frame, so it is kept cheap. */
-  showCounters(frameCount: number): void {
+  public showCounters(frameCount: number): void {
     if (!this.counters) return;
     this.counters.textContent = `Frames: ${frameCount} | render() calls: ${this.renderCount}`;
   }
 
   /** Redraws the grid and the status line from the current state of the game. */
-  render(): void {
+  public render(): void {
     this.renderCount++;
     if (!this.table || !this.status) return;
 

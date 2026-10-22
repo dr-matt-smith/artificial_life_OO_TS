@@ -1,10 +1,10 @@
 // A creature that lives on the grid. It knows its own name, picture, and where it is.
 
 export class Creature {
-  name: string;
-  image: string;
-  row: number;
-  col: number;
+  public readonly name: string;
+  public readonly image: string;
+  public row: number;
+  public col: number;
 
   constructor(name: string, image: string, row: number, col: number) {
     this.name = name;

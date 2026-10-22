@@ -48,11 +48,11 @@
   <rect class="head" x="790" y="60" width="330" height="40"/>
   <text class="stereo" x="955" y="76" text-anchor="middle">view</text>
   <text class="title" x="955" y="93" text-anchor="middle">Display</text>
-  <text x="800" y="118">+ game: Game</text>
-  <text x="800" y="136">+ table: HTMLTableElement | null</text>
-  <text x="800" y="154">+ status: HTMLParagraphElement | null</text>
-  <text x="800" y="172">+ counters: HTMLParagraphElement | null</text>
-  <text x="800" y="190">+ renderCount: number = 0</text>
+  <text x="800" y="118">- game: Game</text>
+  <text x="800" y="136">- table: HTMLTableElement | null</text>
+  <text x="800" y="154">- status: HTMLParagraphElement | null</text>
+  <text x="800" y="172">- counters: HTMLParagraphElement | null</text>
+  <text x="800" y="190">- renderCount: number = 0</text>
   <line class="line" x1="790" y1="200" x2="1120" y2="200"/>
   <text x="800" y="218">+ constructor(game: Game)</text>
   <text x="800" y="236">+ showCounters(frameCount): void</text>
@@ -106,9 +106,8 @@
   <line class="dashed" x1="950" y1="266" x2="950" y2="340" marker-end="url(#arrow)"/>
   <text class="label" x="958" y="308">uses (instanceof)</text>
 
-  <!-- Game owns a World (composition) -->
-  <path d="M570,220 L564,230 L570,240 L576,230 Z" fill="#1d3557" stroke="#1d3557" stroke-width="1.5"/>
-  <line class="line" x1="570" y1="240" x2="570" y2="340" marker-end="url(#arrow)"/>
+  <!-- Game has a World -->
+  <line class="line" x1="570" y1="220" x2="570" y2="340" marker-end="url(#arrow)"/>
   <text class="label" x="578" y="290">world</text>
 
   <!-- Game knows the ant, rabbit, and selected creature -->
@@ -119,17 +118,15 @@
   <line class="dashed" x1="700" y1="220" x2="880" y2="340" marker-end="url(#arrow)"/>
   <text class="label" x="778" y="284" text-anchor="end">«creates»</text>
 
-  <!-- World grid holds Creatures and Food (aggregation) -->
-  <path d="M380,440 L370,434 L360,440 L370,446 Z" fill="#ffffff" stroke="#1d3557" stroke-width="1.5"/>
-  <line class="line" x1="360" y1="440" x2="290" y2="440" marker-end="url(#arrow)"/>
+  <!-- World grid holds Creatures and Food -->
+  <line class="line" x1="380" y1="440" x2="290" y2="440" marker-end="url(#arrow)"/>
   <text class="label" x="325" y="432" text-anchor="middle">0..*</text>
 
-  <path d="M760,390 L770,384 L780,390 L770,396 Z" fill="#ffffff" stroke="#1d3557" stroke-width="1.5"/>
-  <line class="line" x1="780" y1="390" x2="850" y2="390" marker-end="url(#arrow)"/>
+  <line class="line" x1="760" y1="390" x2="850" y2="390" marker-end="url(#arrow)"/>
   <text class="label" x="815" y="382" text-anchor="middle">0..*</text>
 
   <!-- notes -->
   <text class="note" x="20" y="535">frame() runs every animation frame (requestAnimationFrame): it calls display.render() and display.showCounters(frameCount).</text>
   <text class="note" x="20" y="553">Display also checks instanceof Creature. World.ts also exports the constants WIDTH = 20 and HEIGHT = 12.</text>
-  <text class="note" x="20" y="571">◆ composition (owns)    ◇ aggregation (holds)    → association    - - → dependency</text>
+  <text class="note" x="20" y="571">→ association    - - → dependency</text>
 </svg>
