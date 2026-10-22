@@ -8,7 +8,8 @@ A 20 x 12 grid with an ant, a rabbit and some food - a starting point for explor
 ## Exercises
 
 Each exercise is in `exercises/`. Start from the branch in the "start from" column; the next branch has a
-solution.
+solution. Exercises 5 and 6 are open-ended: ideas and questions to explore in your own way, with no solution
+branch.
 
 | Exercise | What you do | Start from | A solution |
 |---|---|---|---|
@@ -16,6 +17,8 @@ solution.
 | [2](exercises/exercise2.md) | separate Model, Display (view) and Game (controller) - **MVC** | `ex1-move-creatures-with-keyboard` | `ex2-separate-model-view-controller` |
 | [3](exercises/exercise3.md) | redraw only when something changed | `ex2-separate-model-view-controller` | `ex3-redraw-only-when-changed` |
 | [4](exercises/exercise4.md) | tell the view when the model changes - the **Observer** pattern | `ex3-redraw-only-when-changed` | `ex4-observer-pattern` |
+| [5](exercises/exercise5.md) | an event bus with named topics - **publish / subscribe** | `ex4-observer-pattern` | none - explore your own way |
+| [6](exercises/exercise6.md) | creatures that wander, get hungry and eat - the **State** pattern | `ex4-observer-pattern`, or your exercise 5 | none - explore your own way |
 
 To switch branch: `git switch ex1-move-creatures-with-keyboard` (and so on). To see everything an exercise
 changed: `git diff main ex1-move-creatures-with-keyboard`.
