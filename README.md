@@ -43,9 +43,11 @@ No server is needed: `dist/` is a plain web page, so you can also open `dist/ind
 
 ![Class diagram for version 1](README_images/class_diagram_v1.svg)
 
-The code follows **MVC**: `World` is the model, `Display` is the view, and `Game` is the controller.
-`main.ts` is not a class: it creates the game and its display, passes key presses to the game, and runs the
-game loop.
+On this branch (`before-mvc`) **one class does everything**: `Game` holds the grid and the rules for moving
+(the model), turns key presses into changes (the controller), and draws the page (the view). The next step
+is to pull those three jobs apart into separate classes, following the **MVC** pattern.
+
+`main.ts` is not a class: it creates the game, passes key presses to it, and runs the game loop.
 
 ## The files
 
@@ -54,27 +56,27 @@ game loop.
 - `src/Creature.ts` - **Creature**: a creature on the grid (the ant or the rabbit). Holds its name, its
   picture, and its row and column.
 - `src/Food.ts` - **Food**: something a creature can eat. Holds just its picture.
-- `src/World.ts` - **World** (the **model**): the 20 x 12 grid. Each square is `null` (empty), a `Creature`
-  or a `Food`. It has the rules for moving: a creature can't leave the grid or walk into another
-  creature, and it eats any food it moves onto. Also exports the `WIDTH` and `HEIGHT` constants.
-- `src/Game.ts` - **Game** (the **controller**): creates the world, the ant, the rabbit and the food, and
-  remembers which creature is selected. `handleKey()` turns a key press into a change to the world.
-- `src/Display.ts` - **Display** (the **view**): the only class that touches the web page. `render()`
-  rebuilds the HTML table from the grid (and counts how often it is called); `showCounters()` shows the
-  frame and `render()` counts.
-- `src/main.ts` - the entry point (not a class). Creates the `Game` and the `Display`, passes each key
-  press to `game.handleKey()`, and runs the game loop: every frame, `frame()` calls `display.render()`
-  and `display.showCounters()`.
+- `src/Game.ts` - **Game**: the whole game in one class.
+  - the 20 x 12 grid: each square is `null` (empty), a `Creature` or a `Food`, and the rules for moving:
+    a creature can't leave the grid or walk into another creature, and it eats any food it moves onto
+  - creates the ant, the rabbit and the food, and remembers which creature is selected; `handleKey()`
+    turns a key press into a change to the grid
+  - `render()` rebuilds the HTML table from the grid (and counts how often it is called);
+    `showCounters()` shows the frame and `render()` counts
+  - also exports the `WIDTH` and `HEIGHT` constants
+- `src/main.ts` - the entry point (not a class). Creates the `Game`, passes each key press to
+  `game.handleKey()`, and runs the game loop: every frame, `frame()` calls `game.render()` and
+  `game.showCounters()`.
 
 ### Tests (`tests/`)
 
-- `tests/World.test.ts` - tests for the grid and the movement rules
+- `tests/Grid.test.ts` - tests for the grid and the movement rules
 - `tests/Game.test.ts` - tests for the player controls (selecting and moving creatures)
 
 ### The web page (`public/`, copied into `dist/` by the build)
 
 - `public/index.html` - the page: a heading, the instructions, the status and counters lines, and the
-  empty `<table>` that `Display` fills
+  empty `<table>` that `Game` fills
 - `public/css/styles.css` - the look; the grid's styles are at the bottom, under "this project"
 - `public/images/sprites/` - the PNG pictures for the creatures and food
 

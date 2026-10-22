@@ -1,11 +1,8 @@
-// main.ts wires everything together: it creates the game and its display, and passes each key
-// press to the game, then redraws.
+// main.ts starts everything: it creates the game, passes each key press to it, and runs the game loop.
 
-import { Display } from "./Display.ts";
 import { Game } from "./Game.ts";
 
 const game = new Game();
-const display = new Display(game);
 
 document.addEventListener("keydown", (event) => {
   game.handleKey(event.key);
@@ -13,22 +10,22 @@ document.addEventListener("keydown", (event) => {
   if (event.key.startsWith("Arrow")) {
     event.preventDefault(); // stop the arrow keys scrolling the page
   }
-  display.render();
+  game.render();
 });
 
 
 // Counts every frame the browser draws (about 60 a second), and shows it next to the number of
-// render() calls - which only goes up when a key is pressed.
+// render() calls.
 let frameCount = 0;
 function frame(): void {
     // (1) increment frame count
     frameCount++;
 
     // (2) update HTML display of world grid data
-    display.render();
+    game.render();
 
-    // (3) update HTML display of counters 
-    display.showCounters(frameCount);
+    // (3) update HTML display of counters
+    game.showCounters(frameCount);
 
     // (4) repeat this game loop next frame ....
     requestAnimationFrame(frame);
